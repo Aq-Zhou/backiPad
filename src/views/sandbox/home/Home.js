@@ -8,7 +8,7 @@ const { confirm } = Modal
 export default function Home() {
     // 保存数据
     const [dataSource, setdataSource] = useState([])
-    // 控制添加用户
+    // 控制添加项目
     const [isAddVisible ,setisAddVisible] = useState(false)
     // 控制修改
     const [isUpdateVisible, setisUpdateVisible] = useState(false)
@@ -145,7 +145,7 @@ export default function Home() {
         <div>
             <Button type="primary" onClick={() => {
                 setisAddVisible(true)
-            }}>添加用户</Button>
+            }}>添加项目</Button>
 
 
             <Table dataSource={dataSource} columns={columns}
@@ -157,7 +157,7 @@ export default function Home() {
 
             <Modal
                 visible={isAddVisible}
-                title="添加用户"
+                title="添加项目"
                 okText="确定"
                 cancelText="取消"
                 onCancel={() => {

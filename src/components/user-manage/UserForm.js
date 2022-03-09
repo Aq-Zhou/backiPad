@@ -18,14 +18,14 @@ const UserForm = forwardRef((props,ref) => {
             </Form.Item>
             <Form.Item
                 name="projectName"
-                label="用户名"
+                label="项目名"
                 rules={[{ required: true, message: 'Please input the title of collection!' }]}
             >
                 <Input />
             </Form.Item>
             <Form.Item
                 name="deadLine"
-                label="密码"
+                label="过期时间"
                 rules={[{ required: true, message: 'Please input the title of collection!' }]}
             >
                 <Input />
