@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import Login from '../views/login/Login'

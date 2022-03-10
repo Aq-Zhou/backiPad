@@ -18,3 +18,5 @@ console.log('JSON.parse(localStorage.getItem("token"))', JSON.parse(localStorage
 存放在localStorage里的东西，应该是这样的{'key': 'value'}才能用，不然就报错了
 
 localStorage取不到数据，则为null，如果有数据，为undefined，这个undefined是字符串
+
+设置请求头的时候，检查是没有双引号的。
