@@ -31,7 +31,7 @@ function SideMenu(props) {
               列表
             </Menu.Item>
             <Menu.Item key="/role" icon={<RadarChartOutlined />} onClick={()=>{props.history.push('/role')}}>
-              测试
+              测试用
             </Menu.Item>
           </Menu>
         </div>

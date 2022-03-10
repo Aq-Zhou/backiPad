@@ -1,54 +1,60 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Button, Table, Modal } from 'antd'
-import axios from 'axios'
+import {  Table, Switch, Button, Modal } from 'antd'
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import UserForm from '../../../components/user-manage/UserForm'
+import axios from 'axios'
+
 const { confirm } = Modal
 
+
 export default function Home() {
-    // 保存数据
     const [dataSource, setdataSource] = useState([])
-    // 控制添加项目
+
+    const [state, setState] = useState({
+        pagination: {
+            current: 1,
+            pageSize: 5,
+            total: 0
+        },
+        loading: false,
+    })
+
     const [isAddVisible ,setisAddVisible] = useState(false)
-    // 控制修改
     const [isUpdateVisible, setisUpdateVisible] = useState(false)
-    const [isUpdateDisabled, setisUpdateDisabled] = useState(false)
-
-
-    // 项目名
-    // const [projectName, setProjectName] = useState()
-    // 过期时间
-    // const [deadLine, setDeadLine] = useState()
-
+    
     const addForm = useRef(null)
     const updateForm = useRef(null)
 
-    useEffect(() => {
-        
+    const [refData] = useState({
+        id: 'id',
+        projectName: '项目名称',
+        deadLine: '过期时间(格式:YYYY-MM-DD)'
     })
 
     useEffect(() => {
-        axios.get("http://localhost:8000/projectsName").then(res => {
-            const list = res.data
-            console.log('list', list)
-            setdataSource(list)
+        const token = localStorage.getItem('token')
+        // console.log('token', token)
+        axios.get('http://47.95.1.254/api/projectname?page=1&size=5', { headers: { 'Authorization': token } }).then((res) => {
+            console.log('res', res)
+            // console.log('res', res.data.data.results)
+            // console.log('res.data.data.count', res.data.data.count)
+            setdataSource(res.data.data.results)
+            setState({ pagination: { ...pagination, total: res.data.data.count } })
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const columns = [
         {
-            title: 'Id号',
+            title: '数据库id',
             dataIndex: 'id',
-            render: (id) => {
-                return <b>{id}</b>
-            }
         },
         {
             title: '项目名称',
             dataIndex: 'projectName',
         },
         {
-            title: "过期时间",
+            title: '过期时间',
             dataIndex: 'deadLine',
         },
         {
@@ -61,6 +67,7 @@ export default function Home() {
                 </div>
             }
         }
+
     ];
 
     const handleUpdate = (item)=>{
@@ -74,7 +81,35 @@ export default function Home() {
         // setcurrent(item)
     }
 
-    
+    const updateFormOK = ()=>{
+        const token = localStorage.getItem('token')
+        updateForm.current.validateFields().then(value => {
+            console.log("value", value)
+            setisUpdateVisible(false)
+
+            setdataSource(dataSource.map(item => {
+                if(item.id === value.id) {
+                    return {
+                        ...value
+                    }
+                }
+                return item;
+            }))
+
+            axios.patch(`http://47.95.1.254/api/projectname/${value.id}`,{
+                projectName: value.projectName,
+                deadLine: value.deadLine
+            }, { headers: { 'Authorization': token } } )
+        })
+    }
+
+    const deleteMethod = (item) => {
+        const token = localStorage.getItem('token')
+        console.log('item', item)
+        axios.delete(`http://47.95.1.254/api/projectname/${item.id}`, { headers: { 'Authorization': token } } )
+        handleTableChange(state.pagination)
+    }
+
     const confirmMethod = (item) => {
         confirm({
             title: '你确定要删除?',
@@ -90,73 +125,64 @@ export default function Home() {
         });
 
     }
-    //删除
-    const deleteMethod = (item) => {
-        // console.log(item)
-        // 当前页面同步状态 + 后端同步
 
-        setdataSource(dataSource.filter(data=>data.id!==item.id))
-
-        axios.delete(`http://localhost:8000/projectsName/${item.id}`)
+    const handleTableChange = ({current, pageSize}) => {
+        const token = localStorage.getItem('token')
+        setState({ loading: true })
+        console.log('current', current)
+        console.log('pageSize', pageSize)
+        axios.get(`http://47.95.1.254/api/projectname?page=${current}&size=${pageSize}`, { headers: { 'Authorization': token } }).then((res) => {
+            console.log('res', res)
+            // console.log('res', res.data.data.results)
+            // console.log('res.data.data.count', res.data.data.count)
+            setdataSource(res.data.data.results)
+            setState({ loading: false, pagination: { ...pagination, total: res.data.data.count, current:current, pageSize:pageSize } })
+        })
     }
 
     // 添加
     const addFormOK = () => {
+        const token = localStorage.getItem('token')
 
         console.log('addForm.current', addForm.current)
 
         addForm.current.validateFields().then(value => {
-            // console.log(value)
+            console.log(value)
 
             setisAddVisible(false)
 
             addForm.current.resetFields()
             //post到后端，生成id，再设置 datasource, 方便后面的删除和更新
-            axios.post(`http://localhost:8000/projectsName`, {
-                ...value
-            }).then(res=>{
-                console.log(res.data)
-                setdataSource([...dataSource,{
-                    ...res.data,
-                }])
+            axios.post(`http://47.95.1.254/api/projectname`, {
+                projectName: value.projectName,
+                deadLine: value.deadLine
+            }, { headers: { 'Authorization': token } } ).then(res=>{
+                console.log(res)
             })
         }).catch(err => {
             console.log(err)
         })
     }
 
-    const updateFormOK = ()=>{
-        updateForm.current.validateFields().then(value => {
-            console.log("value", value)
-            setisUpdateVisible(false)
 
-            setdataSource(dataSource.map(item => {
-                if(item.id === value.id) {
-                    return {
-                        ...value
-                    }
-                }
-                return item;
-            }))
-            setisUpdateDisabled(!isUpdateDisabled)
 
-            axios.patch(`http://localhost:8000/projectsName/${value.id}`,value)
-        })
-    }
 
+    const { pagination, loading } = state;
 
     return (
         <div>
+
             <Button type="primary" onClick={() => {
                 setisAddVisible(true)
             }}>添加项目</Button>
 
-
-            <Table dataSource={dataSource} columns={columns}
-                pagination={{
-                    pageSize: 10
-                }}
+            <Table 
+                dataSource={dataSource} 
+                columns={columns}
+                pagination={pagination}
                 rowKey={item => item.id}
+                loading={loading}
+                onChange={handleTableChange}
             />
 
             <Modal
@@ -172,7 +198,8 @@ export default function Home() {
                 }
             >
                 <UserForm 
-                     ref={addForm}
+                    props={refData}
+                    ref={addForm}
                 ></UserForm>
             </Modal>
 
@@ -183,17 +210,18 @@ export default function Home() {
                 cancelText="取消"
                 onCancel={() => {
                     setisUpdateVisible(false)
-                    setisUpdateDisabled(!isUpdateDisabled)
                 }}
                 onOk={() => 
                     updateFormOK()
                 }
             >
                 <UserForm
+                    props={refData}
                     // regionList={regionList} roleList={roleList}  isUpdateDisabled={isUpdateDisabled} isUpdate={true}
                     ref={updateForm}
                 ></UserForm>
             </Modal>
+
 
         </div>
     )

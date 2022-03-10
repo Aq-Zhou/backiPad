@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 import {Form,Input} from 'antd'
 const UserForm = forwardRef((props,ref) => {
 
-    console.log('ref', ref)
+    const keys = Object.keys(props.props)
 
     return (
         <Form
@@ -10,22 +10,22 @@ const UserForm = forwardRef((props,ref) => {
             layout="vertical"
         >
             <Form.Item
-                name="id"
-                label="id"
+                name={keys[0]}
+                label={props.props[`${keys[0]}`]}
                 hidden="true"
             >
                 <Input />
             </Form.Item>
             <Form.Item
-                name="projectName"
-                label="项目名"
+                 name={keys[1]}
+                 label={props.props[`${keys[1]}`]}
                 rules={[{ required: true, message: 'Please input the title of collection!' }]}
             >
                 <Input />
             </Form.Item>
             <Form.Item
-                name="deadLine"
-                label="过期时间"
+                name={keys[2]}
+                label={props.props[`${keys[2]}`]}
                 rules={[{ required: true, message: 'Please input the title of collection!' }]}
             >
                 <Input />
