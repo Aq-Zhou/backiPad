@@ -14,12 +14,13 @@ export default function Login(props) {
         }).then((res) => {
             // console.log('res', res)
             // console.log('code', res.data.code)
+            // console.log('res.data.data', res.data.data)
             // console.log('token', res.data.data.token)
             // console.log('JSON.stringify(res.data.data.token)', JSON.stringify(res.data.data.token))
             if(res.data.code === 200) {
-              localStorage.setItem('token', JSON.stringify(res.data.data.token))
+              localStorage.setItem('token', res.data.data.token)
               props.history.replace('/')
-              console.log('props', props)
+              // console.log('localStorage', localStorage.getItem('token'))
             } else {
               message.error("用户名或密码不匹配")
             }

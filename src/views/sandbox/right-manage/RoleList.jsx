@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 // import qs from 'qs';
 import { Table } from 'antd';
+import axios from "axios";
 
 export default function RoleList() {
 
@@ -13,9 +14,14 @@ export default function RoleList() {
         loading: false,
     })
 
-    useEffect(() => {
+    // const token = localStorage.getItem('token')
+    // console.log('token', token)
 
-    })
+    // useEffect(() => {
+    //     axios.get('http://47.95.1.254/api/superipad', {headers: { 'Authorization': {token} }}).then((res) => {
+    //         console.log('res', res)
+    //     })
+    // })
 
     const columns = [
         {
