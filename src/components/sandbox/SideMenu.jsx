@@ -30,6 +30,9 @@ function SideMenu(props) {
             <Menu.Item key="/list" icon={<RadarChartOutlined />} onClick={()=>{props.history.push('/list')}}>
               列表
             </Menu.Item>
+            <Menu.Item key="/role" icon={<RadarChartOutlined />} onClick={()=>{props.history.push('/role')}}>
+              测试
+            </Menu.Item>
           </Menu>
         </div>
       </div>

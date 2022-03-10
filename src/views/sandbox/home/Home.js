@@ -24,6 +24,10 @@ export default function Home() {
     const updateForm = useRef(null)
 
     useEffect(() => {
+        
+    })
+
+    useEffect(() => {
         axios.get("http://localhost:8000/projectsName").then(res => {
             const list = res.data
             console.log('list', list)
@@ -150,7 +154,7 @@ export default function Home() {
 
             <Table dataSource={dataSource} columns={columns}
                 pagination={{
-                    pageSize: 5
+                    pageSize: 10
                 }}
                 rowKey={item => item.id}
             />

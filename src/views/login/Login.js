@@ -7,14 +7,24 @@ import axios from 'axios'
 export default function Login(props) {
 
     const onFinish = (values) => {
-        console.log(values)
-        if(values.username === "jhmt" && values.password === "jhmt") {
-            localStorage.setItem('token', JSON.stringify(values))
-            props.history.push("/")
-        }
-        else {
-            message.error("用户名或密码不匹配")
-        }
+        // console.log(values)
+        axios.post('http://47.95.1.254/api/login', {
+          name: values.username,
+          password: values.password
+        }).then((res) => {
+            // console.log('res', res)
+            // console.log('code', res.data.code)
+            // console.log('token', res.data.data.token)
+            // console.log('JSON.stringify(res.data.data.token)', JSON.stringify(res.data.data.token))
+            if(res.data.code === 200) {
+              localStorage.setItem('token', JSON.stringify(res.data.data.token))
+              props.history.replace('/')
+              console.log('props', props)
+            } else {
+              message.error("用户名或密码不匹配")
+            }
+        })
+        
         
     }
     return (
@@ -26,7 +36,7 @@ export default function Login(props) {
                       "color": {
                         "value": "#043564"
                       },
-                      "image": "url('http://vincentgarreau.com/particles.js/assets/img/kbLd9vb_new.gif')",
+                      "image": "url(./kbLd9vb_new.gif)",
                       "position": "0 50%",
                       "repeat": "no-repeat",
                       "size": "60%",
@@ -560,7 +570,7 @@ export default function Login(props) {
                     <Form.Item>
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             登录
-                     </Button>
+                        </Button>
                     </Form.Item>
                 </Form>
             </div>

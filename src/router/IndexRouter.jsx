@@ -6,29 +6,23 @@ import NewsSandBox from '../views/sandbox/NewsSandBox'
 
 const IndexRouter = withRouter((props) => {
 
-    const [state, setState] = useState(false)
 
-    useEffect(() => {
-        if(window.location.hash === '#/') {
+    // console.log('window.location.hash', window.location.hash)
+    const fn = () => {
+        if(window.location.hash === '#/' && !JSON.parse(localStorage.getItem("token"))) {
             props.history.replace('login')
+        } else if(JSON.parse(localStorage.getItem("token"))) {
+           return true
+        } else {
+            return false
         }
-    })
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {
-        if(JSON.parse(localStorage.getItem("token"))?.username === "jhmt" && JSON.parse(localStorage.getItem("token"))?.password === "jhmt"){
-            setState(true)
-        }else {
-            setState(false)
-        }
-    })
+    }
 
     return (
         <Switch>
-            <Route path="/login" component={Login} />
+            <Route path="/login" component={Login} exact />
             {/* <Route path="/" component={NewsSandBox}/> */}
-            <Route path="/" render={() =>
-                (state) ?
+            <Route path="/" render={ () => fn() ?
                     <NewsSandBox ></NewsSandBox> :
                     <Redirect to="/login" />
             } />
