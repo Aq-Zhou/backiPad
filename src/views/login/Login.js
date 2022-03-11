@@ -19,7 +19,7 @@ export default function Login(props) {
             // console.log('JSON.stringify(res.data.data.token)', JSON.stringify(res.data.data.token))
             if(res.data.code === 200) {
               localStorage.setItem('token', res.data.data.token)
-              props.history.replace('/')
+              props.history.replace('/chiaki/home')
               // console.log('localStorage', localStorage.getItem('token'))
             } else {
               message.error("用户名或密码不匹配")

@@ -20,3 +20,9 @@ console.log('JSON.parse(localStorage.getItem("token"))', JSON.parse(localStorage
 localStorage取不到数据，则为null，如果有数据，为undefined，这个undefined是字符串
 
 设置请求头的时候，检查是没有双引号的。
+
+
+注意http请求https会失败，因为协议不一样
+
+package.json配置homepage可以修改虽然打包文件的位置还是不变，但是代码中配置的路径发生改变。主要用于发布时修改请求css和js文件路径。
+

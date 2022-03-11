@@ -24,13 +24,13 @@ function SideMenu(props) {
         <div className="logo" >发布管理系统</div>
         <div style={{ flex: 1, "overflow": "auto" }}>
           <Menu theme="dark" mode="inline" selectedKeys={selectKeys} className="aaaaaaa" openKeys={openKeys}>
-            <Menu.Item key="/home" icon={<AppleOutlined />} onClick={()=>{props.history.push('/home')}}>
+            <Menu.Item key="/chiaki/home" icon={<AppleOutlined />} onClick={()=>{props.history.push('/home')}}>
               首页
             </Menu.Item>
-            <Menu.Item key="/list" icon={<RadarChartOutlined />} onClick={()=>{props.history.push('/list')}}>
+            <Menu.Item key="/chiaki/list" icon={<RadarChartOutlined />} onClick={()=>{props.history.push('/list')}}>
               列表
             </Menu.Item>
-            <Menu.Item key="/role" icon={<RadarChartOutlined />} onClick={()=>{props.history.push('/role')}}>
+            <Menu.Item key="/chiaki/role" icon={<RadarChartOutlined />} onClick={()=>{props.history.push('/role')}}>
               测试用
             </Menu.Item>
           </Menu>

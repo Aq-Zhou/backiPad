@@ -15,12 +15,13 @@ const IndexRouter = withRouter((props) => {
     // console.log('localStorage.getItem("token")', !localStorage.getItem("token"))
 
     // console.log('JSON.stringify(localStorage.getItem("token"))', JSON.stringify(localStorage.getItem("token")))
-    // console.log('JSON.parse(localStorage.getItem("token"))', JSON.parse(localStorage.getItem("token")))
+    // console.log('JSON.parse(localStorage.getItem("token"))', JSONss.parse(localSstorage.getItem("token")))
 
     const fn = () => {
-        if(window.location.hash === '#/' && !(localStorage.getItem("token"))) {
-            props.history.replace('login')
-        } else if(localStorage.getItem("token")) {
+        // if(window.location.hash === '/chiaki/' && !(localStorage.getItem("token"))) {
+        //     props.history.replace('logins')
+        // } else 
+        if(localStorage.getItem("token")) {
            return true
         } else {
             return false
@@ -29,11 +30,12 @@ const IndexRouter = withRouter((props) => {
 
     return (
         <Switch>
-            <Route path="/login" component={Login} exact />
+            <Route path="/chiaki/login" component={Login} exact />
+            <Route path="/chiaki" component={Login} exact />
             {/* <Route path="/" component={NewsSandBox}/> */}
-            <Route path="/" render={ () => fn() ?
+            <Route path="/chiaki/" render={ () => fn() ?
                     <NewsSandBox ></NewsSandBox> :
-                    <Redirect to="/login" />
+                    <Redirect to="/chiaki/login" />
             } />
         </Switch>
     )

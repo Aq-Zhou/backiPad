@@ -30,12 +30,12 @@ export default function NewsSandBox() {
                     }}
                 >
                     <Switch>
-                        <Route path="/home" component={Home} />
-                        <Route path="/list" component={UserList} />
-                        <Route path="/role" component={RoleList} />
-                        <Route path="/right-manage/right/list" component={RightList} />
+                        <Route path="/chiaki/home" component={Home} />
+                        <Route path="/chiaki/list" component={UserList} />
+                        <Route path="/chiaki/role" component={RoleList} />
+                        <Route path="/chiaki/right-manage/right/list" component={RightList} />
 
-                        <Redirect from="/" to="/home" exact />
+                        <Redirect from="/chiaki/" to="/chiaki/home" exact />
                         <Route path="*" component={Nopermission} />
                     </Switch>
                 </Content>
